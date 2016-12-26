@@ -4,14 +4,13 @@ package object.tower;
 import collision.ArcArea;
 import collision.Bullet;
 import collision.PierceBullet;
-import collision.SplashBullet;
 import object.Enemy;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class PierceTower extends NormalTower {
-    ArrayList<Bullet> bulletList;
+    private final ArrayList<Bullet> bulletList;
     public PierceTower(int xTile, int yTile){
         this.curXTile = xTile;
         this.curYTile = yTile;
@@ -24,19 +23,18 @@ public class PierceTower extends NormalTower {
         attackArea = new ArcArea(attackRadius,this);
         lockOn = false;
         counter = attackSpeed*25;
-        bulletList = new ArrayList<Bullet>();
+        bulletList = new ArrayList<>();
     }
 
-    public boolean checkDegree(){
-        if(degree == 0 || Math.abs(degree) == 90 || Math.abs(degree) == 180 || Math.abs(degree) == 270) return true;
-        else return false;
+    private boolean checkDegree(){
+        return degree == 0 || Math.abs(degree) == 90 || Math.abs(degree) == 180 || Math.abs(degree) == 270;
     }
 
     public void shootEnemy(){
         if(counter >= attackSpeed*25){
             if(target != null && lockOn &&(checkDegree())) {
                 counter = 0;
-                bullet = new PierceBullet(10,this,target.getCurX()+target.getWidth()/2,target.getCurY()+target.getHeight()/2, allEnemy);
+                bullet = new PierceBullet(this,target.getCurX()+target.getWidth()/2,target.getCurY()+target.getHeight()/2, allEnemy);
                 bulletList.add(bullet);
                 bullet = null;
             }
@@ -77,17 +75,11 @@ public class PierceTower extends NormalTower {
         g.translate(-(curXCoor+10),-(curYCoor+15));
     }
 
-    public int calculateNearestDegree(int targetDegree){
-        int r1,r2,r3,r4;
-        r1 = Math.abs(targetDegree) - 0;
-        r2 = Math.abs(targetDegree) - 90;
-        r3 = Math.abs(targetDegree) - 180;
-        r4 = Math.abs(targetDegree) - 270;
-
-        r1 = Math.abs(r1);
-        r2 = Math.abs(r2);
-        r3 = Math.abs(r3);
-        r4 = Math.abs(r4);
+    private int calculateNearestDegree(int targetDegree){
+        int r1 = Math.abs(Math.abs(targetDegree));
+        int r2 = Math.abs(Math.abs(targetDegree) - 90);
+        int r3 = Math.abs(Math.abs(targetDegree) - 180);
+        int r4 = Math.abs(Math.abs(targetDegree) - 270);
         if(targetDegree > 0) {
             if (r1 <= r2) {
                 if (r1 <= r3) {

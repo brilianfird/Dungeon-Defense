@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class NormalTower extends Tower {
 
-    public NormalTower(){
+    NormalTower(){
 
     }
     public NormalTower(int xTile, int yTile){
@@ -27,7 +27,7 @@ public class NormalTower extends Tower {
         counter = attackSpeed*25;
     }
 
-    public void calculateTargetDegree(){
+    void calculateTargetDegree(){
         int x1 = curXTile * 50 + 25;
         int y1 = curYTile * 50 + 25;
         int targetDegree = (int)Math.toDegrees(Math.atan2(target.getCurX()-x1,y1-target.getCurY()));
@@ -54,7 +54,7 @@ public class NormalTower extends Tower {
         }
     }
 
-    double calculateEuclideanDistance(int x2, int y2){
+    private double calculateEuclideanDistance(int x2, int y2){
         int x1 = curXTile * 50 + 25;
         int y1 = curYTile * 50 + 25;
         return Math.sqrt(Math.pow(x2-x1,2) + Math.pow(y2-y1,2));

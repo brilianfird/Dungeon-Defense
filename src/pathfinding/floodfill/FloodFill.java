@@ -2,20 +2,16 @@ package pathfinding.floodfill;
 
 import java.util.ArrayList;
 
-/**
- * Created by Brilian on 22/12/2016.
- */
+
 public class FloodFill {
-    char[][] map;
-    int monsterLair;
-    int baseCamp;
-    ArrayList<Node> node = new ArrayList<>();
+    private final char[][] map;
+    private int monsterLair;
+    private int baseCamp;
+    private final ArrayList<Node> node = new ArrayList<>();
     public FloodFill(char[][] map){
         this.map = new char[10][10];
-        for(int y = 0; y < 10; y++){
-            for(int x = 0;x < 10;x++) {
-                this.map[y][x] = map[y][x];
-            }
+        for (int y = 0; y < 10; y++) {
+            System.arraycopy(map[y], 0, this.map[y], 0, 10);
         }
         for(int y = 0;y < 10;y++){
             if(map[y][0] == 'M')

@@ -10,44 +10,48 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Tower {
-    protected int curXTile;
-    protected int curYTile;
-    protected int curXCoor;
-    protected int curYCoor;
-    protected int middleX,middleY;
+    int curXTile;
+    int curYTile;
+    int curXCoor;
+    int curYCoor;
+    protected int middleX, middleY;
 
 
+    int attackRadius;
+    int price;
+    double attackSpeed;
+    int attackDamage;
+    ArcArea attackArea;
+    int degree;
+    final ArrayList<Enemy> targetCandidate;
+    ArrayList<Enemy> allEnemy;
+    Enemy target;
+    boolean lockOn;
+    final int rotateSpeed;
+    Bullet bullet;
+    double counter;
 
-    protected int attackRadius;
-    protected int price;
-    protected double attackSpeed;
-    protected int attackDamage;
-    protected ArcArea attackArea;
-    protected int degree;
-    protected ArrayList<Enemy> targetCandidate;
-    protected ArrayList<Enemy> allEnemy;
+    public Tower() {
+        targetCandidate = new ArrayList<>();
+        rotateSpeed = 20;
+    }
 
     public void setAllEnemy(ArrayList<Enemy> allEnemy) {
         this.allEnemy = allEnemy;
     }
 
-    protected Enemy target;
-    protected boolean lockOn;
-    protected int rotateSpeed;
-    protected Bullet bullet;
-    protected double counter;
-
     public Enemy getTarget() {
         return target;
     }
 
-    public Tower(){
-        targetCandidate = new ArrayList<Enemy>();
-        rotateSpeed = 20;
+    public int getPrice() {
+        return price;
     }
-    public void upCounter(){
+
+    public void upCounter() {
         counter++;
     }
+
     public int getCurXTile() {
         return curXTile;
     }
@@ -84,22 +88,42 @@ public class Tower {
         this.curYCoor = curYCoor;
     }
 
-    public void paint(Graphics2D g){
+    public void paint(Graphics2D g) {
 
     }
-    public boolean inAttackRange(Enemy e){
+
+    public boolean inAttackRange(Enemy e) {
         return true;
     }
-    public void paintAttackRadius(Graphics2D g){}
-    public void addTargetCandidate(Enemy e){}
-    public void selectTarget(){}
-    public void checkTarget(){}
-    public void shootEnemy(){}
-    public void damageEnemy(){}
-    public void removeBullet(){
+
+    public void paintAttackRadius(Graphics2D g) {
+    }
+
+    public void addTargetCandidate(Enemy e) {
+    }
+
+    public void selectTarget() {
+    }
+
+    public void checkTarget() {
+    }
+
+    public void shootEnemy() {
+    }
+
+    public void damageEnemy() {
+    }
+
+    public void removeBullet() {
         bullet = null;
     }
-    public void damageEnemy(Enemy enemy){}
-    public void paintMain(Graphics2D g){}
-    public void removeBullet(PierceBullet bullet){}
+
+    public void damageEnemy(Enemy enemy) {
+    }
+
+    public void paintMain(Graphics2D g) {
+    }
+
+    public void removeBullet(PierceBullet bullet) {
+    }
 }
