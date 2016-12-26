@@ -78,10 +78,10 @@ public class PierceTower extends NormalTower {
     }
 
     public int calculateNearestDegree(int targetDegree){
-        int r1 = Math.abs(targetDegree) - 0;
-        int r2 = Math.abs(targetDegree) - 90;
-        int r3 = Math.abs(targetDegree) - 180;
-        int r4 = Math.abs(targetDegree) - 270;
+        int r1 = Math.abs(Math.abs(targetDegree) - 0);
+        int r2 = Math.abs(Math.abs(targetDegree) - 90);
+        int r3 = Math.abs(Math.abs(targetDegree) - 180);
+        int r4 = Math.abs(Math.abs(targetDegree) - 270);
         if(targetDegree > 0) {
             if (r1 <= r2) {
                 if (r1 <= r3) {
