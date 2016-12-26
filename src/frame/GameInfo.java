@@ -2,51 +2,27 @@ package frame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class GameInfo extends JPanel{
+public class GameInfo extends JPanel {
+    private final Bar timerBar;
+    private final Bar healthBar;
+    private final JLabel labelTitle;
+    private final JLabel labelTitle2;
+    private final JLabel labelWave;
+    private final JLabel labelStatus;
+    private final JLabel labelHealth;
+    private final JLabel labelMoney;
+    private final JLabel labelCurrMoney;
+    JLabel labelNotification;
+    FieldInfo fieldInfo;
+    GamePanel gamePanel;
+    MainFrame mainFrame;
     private int health;
     private int money;
     private int wave;
     private int timer;
     private String status;
-    private final Bar timerBar;
-    private final Bar healthBar;
-
-    private final JLabel labelTitle;
-    private final JLabel labelTitle2;
-
-    public int getHealth() {
-        return health;
-    }
-
-    private final JLabel labelWave;
-    private final JLabel labelStatus;
-    private final JLabel labelHealth;
-
-
-    private final JLabel labelMoney;
-    private final JLabel labelCurrMoney;
-    JLabel labelNotification;
-
-    FieldInfo fieldInfo;
-    GamePanel gamePanel;
-    MainFrame mainFrame;
-
-    public void setMainFrame(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
-    }
-
-    public void setGamePanel(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
-
-    public void setFieldInfo(FieldInfo fieldInfo) {
-        this.fieldInfo = fieldInfo;
-    }
-
-    GameInfo(){
+    GameInfo() {
         wave = 1;
         status = "Build";
         timer = 20;
@@ -65,8 +41,8 @@ public class GameInfo extends JPanel{
         timerBar = new Bar(Color.blue, 20, timer, 80, 10);
         healthBar = new Bar(Color.red, 20, health, 80, 10);
 
-        setLayout(new GridLayout(20,1));
-        setPreferredSize(new Dimension(100,500));
+        setLayout(new GridLayout(20, 1));
+        setPreferredSize(new Dimension(110, 500));
 
 
         add(labelTitle);
@@ -81,20 +57,36 @@ public class GameInfo extends JPanel{
         add(labelNotification);
     }
 
-    public void battleTime(){
+    public int getHealth() {
+        return health;
+    }
+
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
+
+    public void setGamePanel(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
+
+    public void setFieldInfo(FieldInfo fieldInfo) {
+        this.fieldInfo = fieldInfo;
+    }
+
+    public void battleTime() {
         status = "Battle";
         labelStatus.setText(status);
         setTimer(20);
 
         gamePanel.setBuild(false);
-        if(gamePanel.removeActivePanel()) {
+        if (gamePanel.removeActivePanel()) {
+
             fieldInfo.hideAll();
-            gamePanel.removeActive();
         }
     }
 
-    public void buildTime(){
-        money += wave*10/2;
+    public void buildTime() {
+        money += wave * 10 / 2;
         labelCurrMoney.setText(money + " G");
         wave++;
         labelWave.setText("Wave : " + wave);
@@ -103,18 +95,20 @@ public class GameInfo extends JPanel{
         setTimer(20);
         mainFrame.setCounter(0);
         gamePanel.setBuild(true);
+        gamePanel.resetActive();
     }
-    public void addMoney(int price){
+
+    public void addMoney(int price) {
         money += price;
         labelCurrMoney.setText(money + " G");
     }
-    public void tick(){
-        if(timer == 1 && status.equals("Build")){
+
+    public void tick() {
+        if (timer == 1 && status.equals("Build")) {
             battleTime();
-        }
-        else if(status.equals("Battle"));
+        } else if (status.equals("Battle")) ;
         else {
-            setTimer(timer-1);
+            setTimer(timer - 1);
         }
     }
 
@@ -140,32 +134,32 @@ public class GameInfo extends JPanel{
         return status;
     }
 
-    public void damaged(){
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void damaged() {
         health--;
         healthBar.setCurr(health);
         healthBar.repaint();
     }
 
-    public boolean buy(int price){
-        if(price > money)
+    public boolean buy(int price) {
+        if (price > money)
             return false;
-        else{
+        else {
             money -= price;
             labelCurrMoney.setText(money + " G");
             return true;
         }
     }
 
-    public void sell(int price){
+    public void sell(int price) {
         money += price;
         labelCurrMoney.setText(money + " G");
     }
 
-    public void setNotification(String notification){
+    public void setNotification(String notification) {
         labelNotification.setText(notification);
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

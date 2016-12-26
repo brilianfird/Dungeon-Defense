@@ -4,7 +4,7 @@ package frame;
 import javax.swing.*;
 import java.awt.*;
 
-public class Bar extends JPanel{
+public class Bar extends JPanel {
     Color color;
     int max;
     int curr;
@@ -32,10 +32,10 @@ public class Bar extends JPanel{
 
         super.paint(g);
 
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.black);
-        g2d.drawRect(0,0,width,height);
+        g2d.drawRect(0, 0, width, height);
         g2d.setColor(color);
-        g2d.fillRect(1,1,curr*width/max-1,height-1);
+        g2d.fillRect(1, 1, curr * width / max - 1, height - 1);
     }
 }
