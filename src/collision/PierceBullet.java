@@ -8,16 +8,16 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class PierceBullet extends Bullet {
-    ArrayList<Enemy> enemy;
-    ArrayList<Enemy> hitEnemy;
-    int counter = 0;
-    int degree = 0;
+    private final ArrayList<Enemy> enemy;
+    private final ArrayList<Enemy> hitEnemy;
+    private int counter = 0;
+    private int degree = 0;
 
-    public PierceBullet(int radius, Tower tower, int targetX, int targetY, ArrayList<Enemy> enemy) {
-        super(radius, tower, targetX, targetY);
+    public PierceBullet(Tower tower, int targetX, int targetY, ArrayList<Enemy> enemy) {
+        super(10, tower, targetX, targetY);
         this.enemy = enemy;
         bulletSpeed = 10;
-        hitEnemy = new ArrayList<Enemy>();
+        hitEnemy = new ArrayList<>();
         degree = tower.getDegree();
     }
 

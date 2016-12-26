@@ -2,8 +2,8 @@ package object;
 
 
 public class Stone {
-    int price;
-    char symbol;
+    private final int price;
+    private final char symbol;
 
     public Stone() {
         price = 5;

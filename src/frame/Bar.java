@@ -4,19 +4,19 @@ package frame;
 import javax.swing.*;
 import java.awt.*;
 
-public class Bar extends JPanel {
-    Color color;
-    int max;
-    int curr;
-    int width;
-    int height;
+class Bar extends JPanel {
+    private final Color color;
+    private final int max;
+    private int curr;
+    private final int width;
+    private final int height;
 
-    public Bar(Color color, int max, int curr, int width, int height) {
+    public Bar(Color color, int curr) {
         this.color = color;
-        this.max = max;
+        this.max = 20;
         this.curr = curr;
-        this.width = width;
-        this.height = height;
+        this.width = 80;
+        this.height = 10;
     }
 
     public int getCurr() {

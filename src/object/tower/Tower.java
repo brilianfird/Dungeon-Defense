@@ -10,29 +10,29 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Tower {
-    protected int curXTile;
-    protected int curYTile;
-    protected int curXCoor;
-    protected int curYCoor;
+    int curXTile;
+    int curYTile;
+    int curXCoor;
+    int curYCoor;
     protected int middleX, middleY;
 
 
-    protected int attackRadius;
-    protected int price;
-    protected double attackSpeed;
-    protected int attackDamage;
-    protected ArcArea attackArea;
-    protected int degree;
-    protected ArrayList<Enemy> targetCandidate;
-    protected ArrayList<Enemy> allEnemy;
-    protected Enemy target;
-    protected boolean lockOn;
-    protected int rotateSpeed;
-    protected Bullet bullet;
-    protected double counter;
+    int attackRadius;
+    int price;
+    double attackSpeed;
+    int attackDamage;
+    ArcArea attackArea;
+    int degree;
+    final ArrayList<Enemy> targetCandidate;
+    ArrayList<Enemy> allEnemy;
+    Enemy target;
+    boolean lockOn;
+    final int rotateSpeed;
+    Bullet bullet;
+    double counter;
 
     public Tower() {
-        targetCandidate = new ArrayList<Enemy>();
+        targetCandidate = new ArrayList<>();
         rotateSpeed = 20;
     }
 

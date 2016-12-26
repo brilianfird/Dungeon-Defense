@@ -1,7 +1,7 @@
 package pathfinding.astar;
 
 public class Node {
-    public static double fixed_cost = 0.5;
+    public static final double fixed_cost = 0.5;
     private int row, col;
     //heuristic di astar pake euclidean distance
     private double distance, cost, total;

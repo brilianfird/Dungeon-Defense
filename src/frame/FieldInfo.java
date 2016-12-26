@@ -6,17 +6,17 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class FieldInfo extends JPanel implements MouseListener {
-    JLabel nameLabel;
-    JLabel upgradeTowerInfo;
-    JLabel upgradeTowerDesc;
-    JButton stoneButton;
-    JButton sellButton;
-    JButton normalButton;
-    JButton splashButton;
-    JButton pierceButton;
-    JPanel namePanel;
-    JPanel actionPanel;
+class FieldInfo extends JPanel implements MouseListener {
+    private final JLabel nameLabel;
+    private final JLabel upgradeTowerInfo;
+    private final JLabel upgradeTowerDesc;
+    private final JButton stoneButton;
+    private final JButton sellButton;
+    private final JButton normalButton;
+    private final JButton splashButton;
+    private final JButton pierceButton;
+    private final JPanel namePanel;
+    private final JPanel actionPanel;
     private GamePanel gamePanel;
 
     FieldInfo() {
@@ -38,8 +38,8 @@ public class FieldInfo extends JPanel implements MouseListener {
         sellButton.addMouseListener(this);
         splashButton.addMouseListener(this);
 
-        namePanel = new JPanel(new FlowLayout());
-        actionPanel = new JPanel(new FlowLayout());
+        namePanel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
 
         namePanel.add(nameLabel);
         namePanel.add(stoneButton);

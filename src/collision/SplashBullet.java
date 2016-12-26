@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 
 public class SplashBullet extends Bullet {
-    ArrayList<Enemy> enemy;
+    private final ArrayList<Enemy> enemy;
 
-    public SplashBullet(int radius, Tower tower, int targetX, int targetY, ArrayList<Enemy> enemy) {
-        super(radius, tower, targetX, targetY);
+    public SplashBullet(Tower tower, int targetX, int targetY, ArrayList<Enemy> enemy) {
+        super(20, tower, targetX, targetY);
         this.enemy = enemy;
         bulletSpeed = 20;
     }

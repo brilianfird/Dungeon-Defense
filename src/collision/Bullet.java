@@ -4,16 +4,14 @@ import object.tower.Tower;
 
 import java.awt.*;
 
-/**
- * Created by Brilian on 24/12/2016.
- */
+
 public class Bullet extends ArcArea{
-    int targetX;
-    int targetY;
+    private final int targetX;
+    private final int targetY;
     int bulletSpeed;
-    double xSpeed;
-    double ySpeed;
-    int speed;
+    private final double xSpeed;
+    private final double ySpeed;
+    private final int speed;
     Rectangle collRect;
 
     public Bullet(int radius, Tower tower, int targetX, int targetY) {
@@ -57,7 +55,7 @@ public class Bullet extends ArcArea{
             bulletHit();
     }
 
-    public void bulletHit(){
+    void bulletHit(){
         tower.damageEnemy();
     }
 }

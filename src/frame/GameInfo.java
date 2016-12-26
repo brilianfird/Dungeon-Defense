@@ -6,17 +6,13 @@ import java.awt.*;
 public class GameInfo extends JPanel {
     private final Bar timerBar;
     private final Bar healthBar;
-    private final JLabel labelTitle;
-    private final JLabel labelTitle2;
     private final JLabel labelWave;
     private final JLabel labelStatus;
-    private final JLabel labelHealth;
-    private final JLabel labelMoney;
     private final JLabel labelCurrMoney;
-    JLabel labelNotification;
-    FieldInfo fieldInfo;
-    GamePanel gamePanel;
-    MainFrame mainFrame;
+    private final JLabel labelNotification;
+    private FieldInfo fieldInfo;
+    private GamePanel gamePanel;
+    private MainFrame mainFrame;
     private int health;
     private int money;
     private int wave;
@@ -29,17 +25,17 @@ public class GameInfo extends JPanel {
         health = 20;
         money = 250;
 
-        labelTitle = new JLabel("Dungeon");
-        labelTitle2 = new JLabel("Defense");
+        JLabel labelTitle = new JLabel("Dungeon");
+        JLabel labelTitle2 = new JLabel("Defense");
         labelWave = new JLabel("Wave: " + wave);
         labelStatus = new JLabel(status);
-        labelHealth = new JLabel("Health");
-        labelMoney = new JLabel("Money");
+        JLabel labelHealth = new JLabel("Health");
+        JLabel labelMoney = new JLabel("Money");
         labelCurrMoney = new JLabel(money + " G");
         labelNotification = new JLabel("");
-
-        timerBar = new Bar(Color.blue, 20, timer, 80, 10);
-        healthBar = new Bar(Color.red, 20, health, 80, 10);
+        labelNotification.setForeground(Color.red);
+        timerBar = new Bar(Color.blue, timer);
+        healthBar = new Bar(Color.red, health);
 
         setLayout(new GridLayout(20, 1));
         setPreferredSize(new Dimension(110, 500));
@@ -73,7 +69,7 @@ public class GameInfo extends JPanel {
         this.fieldInfo = fieldInfo;
     }
 
-    public void battleTime() {
+    private void battleTime() {
         status = "Battle";
         labelStatus.setText(status);
         setTimer(20);
@@ -93,7 +89,7 @@ public class GameInfo extends JPanel {
         status = "Build";
         labelStatus.setText(status);
         setTimer(20);
-        mainFrame.setCounter(0);
+        mainFrame.setCounter();
         gamePanel.setBuild(true);
         gamePanel.resetActive();
     }

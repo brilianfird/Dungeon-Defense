@@ -1,9 +1,9 @@
 package pathfinding.floodfill;
 
 
-public class Node {
-    private int x;
-    private int y;
+class Node {
+    private final int x;
+    private final int y;
 
     public Node(int x, int y) {
 

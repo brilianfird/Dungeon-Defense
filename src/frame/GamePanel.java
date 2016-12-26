@@ -16,29 +16,29 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
-public class GamePanel extends JPanel implements MouseMotionListener, MouseListener {
-    char[][] map;
-    int monsterLair;
-    int baseCamp;
-    int hoverX;
-    int hoverY;
-    boolean build;
-    FieldInfo fieldInfo;
-    GameInfo gameInfo;
-    Stone stone;
-    FloodFill floodFill;
-    ArrayList<Enemy> enemy;
-    ArrayList<Tower> tower;
-    int curX;
-    int curY;
+class GamePanel extends JPanel implements MouseMotionListener, MouseListener {
+    private final char[][] map;
+    private final int monsterLair;
+    private final int baseCamp;
+    private int hoverX;
+    private int hoverY;
+    private boolean build;
+    private FieldInfo fieldInfo;
+    private GameInfo gameInfo;
+    private final Stone stone;
+    private FloodFill floodFill;
+    private final ArrayList<Enemy> enemy;
+    private final ArrayList<Tower> tower;
+    private int curX;
+    private int curY;
 
     GamePanel() {
         hoverX = -1;
         hoverY = -1;
         curY = -1;
         curX = -1;
-        enemy = new ArrayList<Enemy>();
-        tower = new ArrayList<Tower>();
+        enemy = new ArrayList<>();
+        tower = new ArrayList<>();
         build = true;
         monsterLair = (int) (Math.random() * 1342 % 10);
         baseCamp = (int) (Math.random() * 1234 % 10);
@@ -74,32 +74,36 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
     }
 
     public void addTower(String type) {
-        if (type.equals("Normal")) {
-            if (gameInfo.buy(50)) {
-                tower.add(new NormalTower(curX, curY));
-                map[curY][curX] = 'N';
-            } else {
-                gameInfo.setNotification("Not enough gold");
-            }
-            fieldInfo.show(map[curY][curX]);
-        } else if (type.equals("Splash")) {
-            if (gameInfo.buy(55)) {
-                tower.add(new SplashTower(curX, curY));
-                map[curY][curX] = 'O';
-            } else {
-                gameInfo.setNotification("Not enough gold");
-            }
-            fieldInfo.show(map[curY][curX]);
+        switch (type) {
+            case "Normal":
+                if (gameInfo.buy(50)) {
+                    tower.add(new NormalTower(curX, curY));
+                    map[curY][curX] = 'N';
+                } else {
+                    gameInfo.setNotification("Not enough gold");
+                }
+                fieldInfo.show(map[curY][curX]);
+                break;
+            case "Splash":
+                if (gameInfo.buy(55)) {
+                    tower.add(new SplashTower(curX, curY));
+                    map[curY][curX] = 'O';
+                } else {
+                    gameInfo.setNotification("Not enough gold");
+                }
+                fieldInfo.show(map[curY][curX]);
 
-        } else if (type.equals("Pierce")) {
-            if (gameInfo.buy(55)) {
-                tower.add(new PierceTower(curX, curY));
-                map[curY][curX] = 'P';
-            } else {
-                gameInfo.setNotification("Not enough gold");
-            }
-            fieldInfo.show(map[curY][curX]);
+                break;
+            case "Pierce":
+                if (gameInfo.buy(55)) {
+                    tower.add(new PierceTower(curX, curY));
+                    map[curY][curX] = 'P';
+                } else {
+                    gameInfo.setNotification("Not enough gold");
+                }
+                fieldInfo.show(map[curY][curX]);
 
+                break;
         }
     }
 
@@ -119,10 +123,10 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
             } else {
                 gameInfo.setNotification("Not enough gold");
             }
-            fieldInfo.show(map[curY][curX]);
         } else {
             gameInfo.setNotification("Bad Place");
         }
+        fieldInfo.show(map[curY][curX]);
 
     }
 
@@ -131,7 +135,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
         enemy.add(new Enemy(wave, baseCamp, map, monsterLair));
         enemy.get(enemy.size() - 1).setCurX((25 - enemy.get(0).getHeight() / 2));
         enemy.get(enemy.size() - 1).setCurY(monsterLair * 50 + (25 - enemy.get(0).getHeight() / 2));
-        enemy.get(enemy.size() - 1).setNextX(0);
+        enemy.get(enemy.size() - 1).setNextX();
         enemy.get(enemy.size() - 1).setNextY(monsterLair);
         enemy.get(enemy.size() - 1).setGameInfo(gameInfo);
     }
@@ -145,7 +149,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
         }
     }
 
-    public void removeActive() {
+    private void removeActive() {
         for (int y = 0; y < 10; y++) {
             for (int x = 0; x < 10; x++) {
                 if (map[y][x] == 'A') map[y][x] = ' ';
@@ -181,7 +185,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
                     g2d.setColor(new Color(144, 238, 144));
                     //Hover
                 else if (map[y][x] == 'H')
-                    g2d.setColor(Color.GREEN);
+                    g2d.setColor(Color.GREEN.darker());
                     //Monster Lair
                 else if (map[y][x] == 'M')
                     g2d.setColor(Color.PINK);
@@ -204,7 +208,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 
         for (Enemy anEnemy : enemy) {
             if (anEnemy.getCurXMap() == 9 && anEnemy.getCurYMap() == baseCamp && anEnemy.isAlive()) {
-                anEnemy.setAlive(false);
+                anEnemy.setAlive();
                 gameInfo.damaged();
             }
             if (anEnemy.isAlive()) {
@@ -293,6 +297,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        gameInfo.setNotification("");
         if (SwingUtilities.isLeftMouseButton(e)) {
             curY = e.getY() / 50;
             curX = e.getX() / 50;
@@ -301,9 +306,11 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
             if (curY == 10) curY--;
             fieldInfo.hideAll();
             if (map[curY][curX] == 'S') {
+                removeActivePanel();
                 fieldInfo.show('S');
             }
             if (map[curY][curX] == 'T') {
+                removeActivePanel();
                 fieldInfo.show('T');
             }
             if (build) {
@@ -315,6 +322,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
             }
         } else if (SwingUtilities.isRightMouseButton(e)) {
             removeActive();
+            fieldInfo.hideAll();
         }
     }
 

@@ -10,30 +10,25 @@ import java.awt.geom.Area;
 
 
 public class Enemy {
-    Astar astar;
+    private Astar astar;
     private int speed;
     private int hp;
     private int curHp;
-    private String type;
     private int width;
     private int height;
-    private Color color;
-    private int baseCamp;
-    private char[][] map;
+    private final int baseCamp;
+    private final char[][] map;
     private boolean alive;
-    private int bounty;
+    private final int bounty;
     //kordinat
     private int curX;
     private int curY;
-    private int targetX;
-    private int targetY;
     //map
     private int nextX;
     private int nextY;
     private int curXMap;
     private int curYMap;
     private GameInfo gameInfo;
-    private Rectangle rectangle;
 
     public Enemy(int wave, int baseCamp, char[][] map, int monsterLair) {
         alive = true;
@@ -42,11 +37,10 @@ public class Enemy {
         curYMap = monsterLair;
         this.map = new char[10][10];
         for (int y = 0; y < 10; y++) {
-            for (int x = 0; x < 10; x++) {
-                this.map[y][x] = map[y][x];
-            }
+            System.arraycopy(map[y], 0, this.map[y], 0, 10);
         }
         this.baseCamp = baseCamp;
+        String type;
         if (wave % 3 == 0 && wave % 5 == 0)
             type = "Fast";
         else if (wave % 3 == 0)
@@ -56,24 +50,28 @@ public class Enemy {
         else
             type = "Normal";
 
-        color = Color.black;
+        Color color = Color.black;
 
-        if (type.equals("Normal")) {
-            speed = 48 + wave * 3;
-            hp = 100 + wave * 3;
-            width = 25;
-            height = 25;
+        switch (type) {
+            case "Normal":
+                speed = 48 + wave * 3;
+                hp = 100 + wave * 3;
+                width = 25;
+                height = 25;
 
-        } else if (type.equals("Fast")) {
-            speed = 64 + wave * 4;
-            hp = 75 + wave * 2;
-            width = 15;
-            height = 15;
-        } else if (type.equals("Huge")) {
-            speed = 32 + wave * 2;
-            hp = 125 + wave * 4;
-            width = 35;
-            height = 35;
+                break;
+            case "Fast":
+                speed = 64 + wave * 4;
+                hp = 75 + wave * 2;
+                width = 15;
+                height = 15;
+                break;
+            case "Huge":
+                speed = 32 + wave * 2;
+                hp = 125 + wave * 4;
+                width = 35;
+                height = 35;
+                break;
         }
         bounty = wave + 1;
         curHp = hp;
@@ -92,7 +90,7 @@ public class Enemy {
     }
 
     public void paint(Graphics2D g) {
-        rectangle = new Rectangle(curX, curY, width, height);
+        Rectangle rectangle = new Rectangle(curX, curY, width, height);
 
         g.setColor(Color.black);
         g.drawRect(curX + width / 2 - 10, curY - 10, 20, 5);
@@ -109,7 +107,7 @@ public class Enemy {
 
     public void getDamage(int damage) {
         curHp -= damage;
-        if (curHp < 1 && alive == true) {
+        if (curHp < 1 && alive) {
             try {
                 alive = false;
                 gameInfo.addMoney(bounty);
@@ -127,8 +125,8 @@ public class Enemy {
         }
     }
 
-    public void calcNewPoint() {
-        astar = new Astar(nextX, nextY, 9, baseCamp, map);
+    private void calcNewPoint() {
+        astar = new Astar(nextX, nextY, baseCamp, map);
         astar.doAstar();
         curXMap = nextX;
         curYMap = nextY;
@@ -138,8 +136,8 @@ public class Enemy {
 
     public void calcNewCoordinate() {
         if (alive) {
-            targetX = nextX * 50 + 25 - height / 2;
-            targetY = nextY * 50 + 25 - height / 2;
+            int targetX = nextX * 50 + 25 - height / 2;
+            int targetY = nextY * 50 + 25 - height / 2;
             if (targetX < curX) {
                 if (curX - targetX < speed / 25)
                     curX = targetX;
@@ -188,8 +186,8 @@ public class Enemy {
         return nextX;
     }
 
-    public void setNextX(int nextX) {
-        this.nextX = nextX;
+    public void setNextX() {
+        this.nextX = 0;
     }
 
     public int getNextY() {
@@ -220,11 +218,11 @@ public class Enemy {
         return alive;
     }
 
-    public void setAlive(boolean alive) {
-        this.alive = alive;
+    public void setAlive() {
+        this.alive = false;
     }
 
-    public Area getBounds() {
+    private Area getBounds() {
         double dCurX = (double) curX;
         double dCurY = (double) curY;
         double dWidth = (double) width;
@@ -242,7 +240,6 @@ public class Enemy {
         Area area = new Area();
         area = getBounds();
         area.intersect(enemy.getBounds());
-        if (!area.isEmpty()) return true;
-        else return false;
+        return !area.isEmpty();
     }
 }

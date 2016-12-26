@@ -4,16 +4,18 @@ import java.util.Vector;
 
 
 public class Astar {
-    int xStart, yStart;
-    Vector<Node> calon_jalur = new Vector<Node>();
-    Vector<Node> jalur = new Vector<Node>();
-    Vector<Node> realJalur = new Vector<Node>();
-    private int xTarget, yTarget;
-    private char[][] map;
-    public Astar(int xStart, int yStart, int xTarget, int yTarget, char[][] cmap) {
+    private final int xStart;
+    private final int yStart;
+    private final Vector<Node> calon_jalur = new Vector<>();
+    private final Vector<Node> jalur = new Vector<>();
+    private final Vector<Node> realJalur = new Vector<>();
+    private final int xTarget;
+    private final int yTarget;
+    private final char[][] map;
+    public Astar(int xStart, int yStart, int yTarget, char[][] cmap) {
         this.xStart = xStart;
         this.yStart = yStart;
-        this.xTarget = xTarget;
+        this.xTarget = 9;
         this.yTarget = yTarget;
         map = new char[10][10];
         for (int y = 0; y < 10; y++)
@@ -23,11 +25,11 @@ public class Astar {
             }
     }
 
-    double discCalc(int row, int col) {
+    private double discCalc(int row, int col) {
         return Math.sqrt(Math.pow(row - yTarget, 2) + Math.pow((col - xTarget), 2));
     }
 
-    void sortNode() {
+    private void sortNode() {
         for (int i = 0; i < calon_jalur.size(); i++) {
             for (int j = i; j < calon_jalur.size(); j++) {
                 if (calon_jalur.get(i).getTotal() > calon_jalur.get(j).getTotal()) {
@@ -93,7 +95,7 @@ public class Astar {
         System.out.println(jalur.lastElement().getCol() + "--" + jalur.lastElement().getRow());
     }
 
-    public void printMap() {
+    private void printMap() {
         for (int y = 0; y < 10; y++) {
             for (int x = 0; x < 10; x++) {
                 System.out.print(map[y][x]);
@@ -110,7 +112,7 @@ public class Astar {
         return realJalur.lastElement().getRow();
     }
 
-    void traceBack(Node node) {
+    private void traceBack(Node node) {
         Node tem = node;
         while (tem.getParent() != null) {
             realJalur.add(tem);

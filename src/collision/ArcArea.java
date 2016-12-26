@@ -9,11 +9,11 @@ import java.awt.geom.Area;
 
 public class ArcArea {
     Tower tower;
-    Shape shape;
+    private Shape shape;
     double midXCoor;
     double midYCoor;
-    int radius;
-    Area area;
+    final int radius;
+    private Area area;
 
     public ArcArea(int radius, int x, int y) {
         this.radius = radius;
@@ -37,7 +37,6 @@ public class ArcArea {
     }
 
     public boolean collideCheck(Rectangle target) {
-        if (area.intersects(target)) return true;
-        else return false;
+        return area.intersects(target);
     }
 }

@@ -30,7 +30,7 @@ public class SplashTower extends NormalTower {
         if (counter == attackSpeed * 25) {
             if (target != null && lockOn) {
                 counter = 0;
-                bullet = new SplashBullet(20, this, target.getCurX() + target.getWidth() / 2, target.getCurY() + target.getHeight() / 2, allEnemy);
+                bullet = new SplashBullet(this, target.getCurX() + target.getWidth() / 2, target.getCurY() + target.getHeight() / 2, allEnemy);
             }
         } else {
             if (counter < attackSpeed * 25)
