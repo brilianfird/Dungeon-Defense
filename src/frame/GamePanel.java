@@ -26,6 +26,37 @@ public class GamePanel extends JPanel implements MouseMotionListener,MouseListen
     FloodFill floodFill;
     ArrayList<Enemy> enemy;
     ArrayList<Tower> tower;
+    int curX;
+    int curY;
+
+    GamePanel(){
+        hoverX = -1;hoverY = -1;
+        curY = -1; curX = -1;
+        enemy = new ArrayList<Enemy>();
+        tower = new ArrayList<Tower>();
+        build = true;
+        monsterLair = (int)(Math.random()*1342%10);
+        baseCamp = (int)(Math.random()*1234%10);
+
+        setPreferredSize(new Dimension(501,501));
+        setLayout(null);
+        map = new char[10][10];
+        for(int y = 0;y < 10;y++)
+            for(int x = 0;x < 10;x++)
+                if(y == monsterLair && x == 0)
+                    map[y][x] = 'M';
+                else if(y == baseCamp && x == 9)
+                    map[y][x] = 'B';
+                else
+                    map[y][x] = ' ';
+
+
+
+        addMouseMotionListener(this);
+        addMouseListener(this);
+        stone = new Stone();
+    }
+
     public void setBuild(boolean build) {
         this.build = build;
     }
@@ -33,9 +64,6 @@ public class GamePanel extends JPanel implements MouseMotionListener,MouseListen
     public void setGameInfo(GameInfo gameInfo) {
         this.gameInfo = gameInfo;
     }
-
-    int curX;
-    int curY;
 
     public void setFieldInfo(FieldInfo fieldInfo) {
         this.fieldInfo = fieldInfo;
@@ -92,33 +120,6 @@ public class GamePanel extends JPanel implements MouseMotionListener,MouseListen
         enemy.get(enemy.size()-1).setGameInfo(gameInfo);
     }
 
-    GamePanel(){
-        hoverX = -1;hoverY = -1;
-        enemy = new ArrayList<Enemy>();
-        tower = new ArrayList<Tower>();
-        build = true;
-        monsterLair = (int)(Math.random()*1342%10);
-        baseCamp = (int)(Math.random()*1234%10);
-
-        setPreferredSize(new Dimension(501,501));
-        setLayout(null);
-        map = new char[10][10];
-        for(int y = 0;y < 10;y++)
-            for(int x = 0;x < 10;x++)
-                if(y == monsterLair && x == 0)
-                    map[y][x] = 'M';
-                else if(y == baseCamp && x == 9)
-                    map[y][x] = 'B';
-                else
-                    map[y][x] = ' ';
-
-
-
-        addMouseMotionListener(this);
-        addMouseListener(this);
-        stone = new Stone();
-    }
-
     public void printMap(){
         for(int y = 0; y < 10; y++){
             for(int x = 0; x < 10; x++){
@@ -152,7 +153,11 @@ public class GamePanel extends JPanel implements MouseMotionListener,MouseListen
         Graphics2D g2d = (Graphics2D)g;
         for(int y = 0;y < 10; y++){
             for(int x = 0;x < 10; x++){
-                g2d.setColor(Color.black);
+                if(curY != -1 && curX != -1){
+                    g2d.setColor(Color.green);
+                }else {
+                    g2d.setColor(Color.black);
+                }
                 g2d.drawRect(x*50,y*50,50,50);
                 //Empty
                 if(map[y][x] == ' ')
@@ -212,13 +217,17 @@ public class GamePanel extends JPanel implements MouseMotionListener,MouseListen
             gameInfo.sell(stone.getPrice());
         }
         else if(map[curY][curX] == 'N' || map[curY][curX] == 'P' || map[curY][curX] == 'O'){
+            Tower tempTower = new Tower();
             for(Tower aTower : tower){
                 if(aTower.getCurXTile() == curX && aTower.getCurYTile() == curY){
-                    tower.remove(aTower);
+                    tempTower = aTower;
+
                 }
             }
+            tower.remove(tempTower);
+            map[curY][curX] = 'S';
         }
-        map[curY][curX] = ' ';
+
     }
 
     public boolean checkEnemiesAlive(){
