@@ -97,13 +97,13 @@ public class PierceTower extends NormalTower {
             if (r1 <= r2) {
                 if (r1 <= r3) {
                     if (r1 <= r4) return 0;
-                    else return -270;
-                } else return -180;
+                    else return 90;
+                } else return 180;
             } else {
                 if (r2 <= r3) {
-                    if (r2 <= r4) return -90;
-                    else return -270;
-                } else return -180;
+                    if (r2 <= r4) return 270;
+                    else return 90;
+                } else return 180;
             }
         }
     }
